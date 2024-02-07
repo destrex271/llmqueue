@@ -2,13 +2,23 @@
 // Just contains data structures for messages etc..
 //
 
+use serde::{Serialize, Deserialize};
+
+#[derive(Serialize, Deserialize)]
 pub struct QuestionMessage{
-    question: String,
-    timestamp: String,
+    pub question: String,
+    pub timestamp: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct AnswerMessage{
+    pub prompt_reply: String,
+    pub timestamp: String
 }
 
 
-pub struct AnswerMessage{
-    prompt_reply: String,
-    timestamp: String
+#[derive(Serialize, Deserialize)]
+pub struct ErrorMessage{
+    pub msg: String,
+    pub code: i8
 }
