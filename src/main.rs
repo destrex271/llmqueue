@@ -1,15 +1,12 @@
 mod publisher;
 mod common;
 mod consumer;
+mod embeddings;
 
-use pgmq::{PgmqError, Message, PGMQueue};
-use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use futures::executor::block_on;
-
-use common::common::{init_queue, ErrorMessage};
-use publisher::publisher::{send_question_message};
-use consumer::consumer::{consume_question_msg};
+use pgmq::PgmqError;
+use common::common::init_queue;
+use publisher::publisher::send_question_message;
+use consumer::consumer::consume_question_msg;
 
 #[tokio::main(flavor="current_thread")]
 async fn main() -> Result<(), PgmqError> {
