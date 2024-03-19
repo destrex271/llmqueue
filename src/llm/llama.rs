@@ -1,7 +1,7 @@
 use ollama_rs::generation::completion::request::GenerationRequest;
 use ollama_rs::Ollama;
 
-struct LlamaInstance{
+pub struct LlamaInstance{
     model_name: String, 
     model_url: String,
     model_port: u16,
@@ -10,7 +10,7 @@ struct LlamaInstance{
 
 trait LlamaFunctions{
     fn new(&self, model_name: String, model_url: String, model_port: u16) -> Self;
-    fn generate_response(&self, prompt_text: String) -> String;
+    async fn generate_response(&self, prompt_text: String) -> Result<String, String>;
 }
 
 impl LlamaFunctions for LlamaInstance{
@@ -23,13 +23,12 @@ impl LlamaFunctions for LlamaInstance{
             instance: ollama
         }
     }
-    pub async fn generate_response(&self, prompt_text: String) -> Result<String, String> {
+    async fn generate_response(&self, prompt_text: String) -> Result<String, String> {
         let res = self.instance.generate(GenerationRequest::new(self.model_name.clone(), prompt_text)).await;
         if let Ok(res) = res {
             return Ok(res.response);
-        }else{
-            return Err("Unable to generate any response".to_string());
         }
+        return Err("Unable to generate any response".to_string());
     }
 }
 
