@@ -8,13 +8,13 @@ pub struct LlamaInstance{
     instance: Ollama
 }
 
-trait LlamaFunctions{
-    fn new(&self, model_name: String, model_url: String, model_port: u16) -> Self;
+pub trait LlamaFunctions{
+    fn new(model_name: String, model_url: String, model_port: u16) -> Self;
     async fn generate_response(&self, prompt_text: String) -> Result<String, String>;
 }
 
 impl LlamaFunctions for LlamaInstance{
-    fn new(&self, model_name: String, model_url: String, model_port: u16) -> Self{
+    fn new(model_name: String, model_url: String, model_port: u16) -> Self{
         let ollama = Ollama::new(model_url.clone(), model_port);
         LlamaInstance{
             model_name,
@@ -32,14 +32,14 @@ impl LlamaFunctions for LlamaInstance{
     }
 }
 
-pub async fn init_llama2(){
-    let model = "llama2:latest".to_string();
-    let prompt = "Why is the sky blue?".to_string();
-
-    let ollama = Ollama::new("http://0.0.0.0".to_string(), 11434);
-    let res = ollama.generate(GenerationRequest::new(model, prompt)).await;
-
-    if let Ok(res) = res {
-        println!("{}", res.response);
-    }
-}
+// pub async fn init_llama2(){
+//     let model = "llama2:latest".to_string();
+//     let prompt = "Why is the sky blue?".to_string();
+//
+//     let ollama = Ollama::new("http://0.0.0.0".to_string(), 11434);
+//     let res = ollama.generate(GenerationRequest::new(model, prompt)).await;
+//
+//     if let Ok(res) = res {
+//         println!("{}", res.response);
+//     }
+// }

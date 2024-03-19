@@ -7,11 +7,16 @@ use pgmq::PgmqError;
 use common::common::init_queue;
 use publisher::publisher::send_question_message;
 use consumer::consumer::consume_question_msg;
-use llm::llama::{init_llama2};
+use llm::llama::{LlamaInstance, LlamaFunctions};
 
 #[tokio::main(flavor="current_thread")]
 async fn main() { //-> Result<(), PgmqError>{
 
-    println!("OK!");
-    init_llama2().await;
+    // Demo Send message to llm
+    let llm: LlamaInstance = LlamaFunctions::new("llama2:latest".to_string(), "http://0.0.0.0".to_string(), 11434);
+    let response = llm.generate_response("How are you Llama?".to_string()).await;
+
+    if let Ok(response) = response {
+        println!("{}", response);
+    }
 }
